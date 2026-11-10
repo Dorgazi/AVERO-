@@ -85,6 +85,7 @@ export function ProductForm({ product }: { product?: Product }) {
           <datalist id="category-options">
             <option value="t-shirts" />
             <option value="socks" />
+            <option value="activewear" />
           </datalist>
         </div>
         <div>

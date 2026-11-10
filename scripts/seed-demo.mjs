@@ -73,6 +73,40 @@ const DEMO = [
     ],
   },
   {
+    slug: "performance-tee",
+    name: "The Performance Tee",
+    category: "activewear",
+    price: 35000, // owner-confirmed price
+    featured: false,
+    description: "A lightweight training T-shirt with raglan sleeves and a close crew neck, finished with reflective stripes at each cuff.\n\nThe AV monogram sits on the chest and the AVÉRO wordmark across the upper back.",
+    colours: ["Black", "Grey"],
+    sizes: TEE_SIZES,
+    stock: (c, s) => (c === "Grey" && s === "S" ? 0 : 10),
+    images: [
+      ["performance-tee-black-front.jpg", "Black", "Black Performance Tee, front view, with raglan sleeves, a white AV monogram on the chest and reflective cuff stripes"],
+      ["performance-tee-black-back.jpg", "Black", "Black Performance Tee, back view, with the AVÉRO wordmark across the upper back"],
+      ["performance-tee-grey-front.jpg", "Grey", "Grey Performance Tee, front view, with raglan sleeves, a white AV monogram on the chest and reflective cuff stripes"],
+      ["performance-tee-grey-back.jpg", "Grey", "Grey Performance Tee, back view, with the AVÉRO wordmark across the upper back"],
+    ],
+  },
+  {
+    slug: "athletic-shorts",
+    name: "The Athletic Shorts",
+    category: "activewear",
+    price: 35000, // owner-confirmed price
+    featured: false,
+    description: "Training shorts with an elastic drawstring waist, side pockets and split hems for easy movement.\n\nFinished with a white AV monogram at the lower left leg.",
+    colours: ["Black", "Grey"],
+    sizes: TEE_SIZES,
+    stock: () => 10,
+    images: [
+      ["athletic-shorts-black-front.jpg", "Black", "Black Athletic Shorts, front view, with a drawstring waist, side pockets and a white AV monogram on the left leg"],
+      ["athletic-shorts-black-back.jpg", "Black", "Black Athletic Shorts, back view, with an elastic waistband and split hems"],
+      ["athletic-shorts-grey-front.jpg", "Grey", "Grey Athletic Shorts, front view, with a drawstring waist, side pockets and a white AV monogram on the left leg"],
+      ["athletic-shorts-grey-back.jpg", "Grey", "Grey Athletic Shorts, back view, with an elastic waistband and split hems"],
+    ],
+  },
+  {
     slug: "monogram-ankle-socks",
     name: "Monogram Ankle Socks",
     category: "socks",
@@ -139,7 +173,7 @@ if (process.argv.includes("--reset")) {
 }
 
 for (const d of DEMO) {
-  let { data: existing } = await supabase.from("products").select("id, is_demo, status, version, featured").eq("slug", d.slug).maybeSingle();
+  let { data: existing } = await supabase.from("products").select("id, is_demo, status, version, featured, price_ngn").eq("slug", d.slug).maybeSingle();
   if (existing && !existing.is_demo) {
     console.log(`skip ${d.slug}: a real (non-sample) product already uses this slug`);
     continue;
@@ -151,7 +185,7 @@ for (const d of DEMO) {
       p_variants: variants,
     });
     if (error) throw error;
-    existing = { id: data[0].id, is_demo: true, status: "draft", version: 1, featured: d.featured };
+    existing = { id: data[0].id, is_demo: true, status: "draft", version: 1, featured: d.featured, price_ngn: d.price ?? DEMO_PRICE };
     console.log(`created ${d.slug}`);
   }
 
@@ -182,10 +216,11 @@ for (const d of DEMO) {
     }
   }
 
-  if (existing.status !== "published" || existing.featured !== d.featured) {
+  const price = d.price ?? DEMO_PRICE;
+  if (existing.status !== "published" || existing.featured !== d.featured || existing.price_ngn !== price) {
     const { data: cur } = await supabase.from("products").select("version").eq("id", existing.id).single();
     const { error } = await supabase.rpc("admin_save_product", {
-      p_id: existing.id, p_expected_version: cur.version, p_product: { status: "published", featured: d.featured }, p_variants: null,
+      p_id: existing.id, p_expected_version: cur.version, p_product: { status: "published", featured: d.featured, price_ngn: price }, p_variants: null,
     });
     if (error) throw error;
   }

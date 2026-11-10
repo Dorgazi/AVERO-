@@ -29,7 +29,8 @@ export default async function HomePage() {
   const hero = collection[0];
   const heroImage =
     hero?.product_images.find((i) => !isBack(i) && i.colour === "Black") ?? (hero ? coverImage(hero) : undefined);
-  const tee = products.find((p) => coloursOf(p) > 1) ?? hero;
+  const tee = products.find((p) => p.category === "t-shirts" && coloursOf(p) > 1) ?? hero;
+  const active = products.filter((p) => p.category === "activewear").slice(0, 4);
   const ways = colourways(tee);
 
   return (
@@ -148,6 +149,37 @@ export default async function HomePage() {
                       </span>
                     </div>
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* Activewear */}
+      {active.length > 0 && (
+        <section aria-labelledby="activewear-title" className="mx-auto max-w-7xl px-5 py-28 sm:px-8 md:py-36">
+          <div className="grid gap-12 md:grid-cols-12">
+            <div className="md:col-span-4 md:sticky md:top-36 md:self-start">
+              <p className="eyebrow text-stone-deep">New category</p>
+              <h2 id="activewear-title" className="display mt-4 text-5xl sm:text-6xl">
+                Activewear
+              </h2>
+              <p className="mt-6 max-w-sm text-charcoal-soft">
+                The same restraint, made for movement. Lightweight training pieces in black and grey, marked
+                only with the AV monogram.
+              </p>
+              <Link
+                href="/shop?category=activewear"
+                className="link-static mt-10 inline-block text-[10.5px] uppercase tracking-[0.26em] text-espresso"
+              >
+                Shop activewear
+              </Link>
+            </div>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-14 sm:gap-x-8 md:col-span-8">
+              {active.map((p) => (
+                <li key={p.id}>
+                  <ProductCard product={p} />
                 </li>
               ))}
             </ul>

@@ -8,6 +8,13 @@ import { categoryLabel } from "@/lib/format";
 export const metadata: Metadata = { title: "Shop" };
 export const dynamic = "force-dynamic";
 
+const INTRO: Record<string, string> = {
+  "": "Structured, boxy-fit essentials in a quiet palette, priced in naira.",
+  "t-shirts": "Cropped, boxy-fit T-shirts with dropped shoulders and a clean crew neck.",
+  activewear: "Lightweight training pieces in black and grey, marked only with the AV monogram.",
+  socks: "Ribbed socks finished with the AV monogram.",
+};
+
 function one(v: string | string[] | undefined) {
   return typeof v === "string" && v.length <= 60 ? v : undefined;
 }
@@ -33,7 +40,7 @@ export default async function ShopPage({ searchParams }: PageProps<"/shop">) {
           <h1 className="display mt-5 text-6xl sm:text-7xl md:text-8xl">{title}</h1>
         </div>
         <p className="max-w-xs text-sm leading-relaxed text-charcoal-soft md:col-span-4 md:justify-self-end">
-          Structured, boxy-fit essentials in a quiet palette, priced in naira.
+          {INTRO[filters.category ?? ""] ?? INTRO[""]}
         </p>
       </div>
 

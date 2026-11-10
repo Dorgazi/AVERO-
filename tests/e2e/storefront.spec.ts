@@ -40,8 +40,11 @@ test.describe("mobile storefront", () => {
     await expect(page.locator("main article")).toHaveCount(2);
     await page.goto("/shop?colour=White&size=XXL&availability=in-stock");
     await expect(page.getByText("Nothing matches those filters.")).toBeVisible();
+    await page.goto("/shop?category=activewear");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Activewear");
+    await expect(page.locator("main article")).toHaveCount(2);
     await page.goto("/shop");
-    await expect(page.locator("main article")).toHaveCount(4);
+    await expect(page.locator("main article")).toHaveCount(6);
   });
 
   test("tapping the main photo flips between front and back; no native radio circles", async ({ page }) => {

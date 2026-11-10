@@ -17,6 +17,7 @@ export function SiteFooter() {
             <ul className="mt-6 space-y-3 text-sm">
               <li><Link className="link-draw hover:text-bone" href="/shop">All pieces</Link></li>
               <li><Link className="link-draw hover:text-bone" href="/shop?category=t-shirts">T-Shirts</Link></li>
+              <li><Link className="link-draw hover:text-bone" href="/shop?category=activewear">Activewear</Link></li>
               <li><Link className="link-draw hover:text-bone" href="/shop?category=socks">Socks</Link></li>
               <li><Link className="link-draw hover:text-bone" href="/cart">Your bag</Link></li>
             </ul>

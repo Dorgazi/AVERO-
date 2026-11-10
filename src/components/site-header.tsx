@@ -9,6 +9,7 @@ import { useCart } from "@/components/cart/cart-context";
 const NAV = [
   { href: "/shop", label: "Shop all" },
   { href: "/shop?category=t-shirts", label: "T-Shirts" },
+  { href: "/shop?category=activewear", label: "Activewear" },
   { href: "/shop?category=socks", label: "Socks" },
   { href: "/#silhouette", label: "The silhouette" },
 ];
@@ -84,7 +85,7 @@ export function SiteHeader() {
           </button>
           <nav aria-label="Primary" className="hidden md:block">
             <ul className="flex gap-9">
-              {NAV.slice(0, 3).map((n) => (
+              {NAV.slice(0, 4).map((n) => (
                 <li key={n.href}>
                   <Link href={n.href} className="link-draw text-[10.5px] uppercase tracking-[0.26em] text-charcoal hover:text-espresso">
                     {n.label}

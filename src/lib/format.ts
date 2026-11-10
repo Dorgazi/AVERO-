@@ -32,6 +32,7 @@ export function slugify(input: string): string {
 export const CATEGORY_LABELS: Record<string, string> = {
   "t-shirts": "T-Shirts",
   socks: "Socks",
+  activewear: "Activewear",
 };
 export function categoryLabel(c: string) {
   return CATEGORY_LABELS[c] ?? c.replace(/-/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
