@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* AVÉRO palette: espresso, bone, warm stone, washed charcoal. */
+@theme {
+  --color-espresso: #2b1d14;
+  --color-espresso-soft: #3d2a1e;
+  --color-bone: #f2ece2;
+  --color-bone-deep: #e7dfd2;
+  --color-stone: #c6b8a5;
+  --color-stone-deep: #8f8170;
+  --color-charcoal: #3a3936;
+  --color-charcoal-soft: #5b5954;
+  --color-ivory: #faf7f2;
+  --color-alert: #8a2f1f;
+  --color-ok: #3f5a3a;
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --tracking-label: 0.18em;
+}
+
+@layer base {
+  html {
+    background: var(--color-bone);
+    color: var(--color-charcoal);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-bone);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    color: var(--color-espresso);
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    line-height: 1.1;
+  }
+  ::selection {
+    background: var(--color-espresso);
+    color: var(--color-bone);
+  }
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-espresso);
+    outline-offset: 3px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-bone);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.75rem;
+    font-size: 12px;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    border: 1px solid var(--color-espresso);
+    transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--color-espresso);
+    color: var(--color-bone);
+  }
+  .btn-primary:hover {
+    background: var(--color-espresso-soft);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-espresso);
+  }
+  .btn-ghost:hover {
+    background: var(--color-bone-deep);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .field {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-ivory);
+    border: 1px solid var(--color-stone);
+    color: var(--color-charcoal);
+  }
+  .field:focus-visible {
+    border-color: var(--color-espresso);
+  }
+  .link-underline {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+}
