@@ -61,7 +61,7 @@ const DEMO = [
     slug: "marrakech-tee",
     name: "The Marrakech Tee",
     category: "t-shirts",
-    price: 80000, // sample price, matching the Essential Tee until the owner confirms
+    price: 100000, // owner-confirmed price
     featured: true,
     description: `${tee}\n\nA sepia street scene from Marrakech is framed across the chest, with a single cream AV monogram set beneath the collar at the back.`,
     colours: ["Black"],
