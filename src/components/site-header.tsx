@@ -60,8 +60,13 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-stone/60 bg-bone/95 backdrop-blur supports-[backdrop-filter]:bg-bone/80">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
+    <header className="sticky top-0 z-40 border-b hairline bg-bone/90 backdrop-blur-md supports-[backdrop-filter]:bg-bone/75">
+      <div className="hidden bg-espresso text-bone/80 md:block">
+        <p className="mx-auto max-w-7xl px-8 py-2 text-center text-[10px] uppercase tracking-[0.34em]">
+          Collection 01 &nbsp;·&nbsp; Structured menswear from Lagos
+        </p>
+      </div>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8 md:h-20">
         <div className="flex flex-1 items-center">
           <button
             ref={toggleRef}
@@ -72,16 +77,16 @@ export function SiteHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((o) => !o)}
           >
-            <span aria-hidden className="relative block h-3 w-5">
-              <span className={`absolute left-0 block h-px w-5 bg-espresso transition ${open ? "top-1.5 rotate-45" : "top-0"}`} />
-              <span className={`absolute left-0 block h-px w-5 bg-espresso transition ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
+            <span aria-hidden className="relative block h-3 w-6">
+              <span className={`absolute left-0 block h-px w-6 bg-espresso transition duration-300 ${open ? "top-1.5 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 block h-px bg-espresso transition-all duration-300 ${open ? "top-1.5 w-6 -rotate-45" : "top-3 w-4"}`} />
             </span>
           </button>
           <nav aria-label="Primary" className="hidden md:block">
-            <ul className="flex gap-8">
+            <ul className="flex gap-9">
               {NAV.slice(0, 3).map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} className="label py-3 text-charcoal hover:text-espresso">
+                  <Link href={n.href} className="link-draw text-[10.5px] uppercase tracking-[0.26em] text-charcoal hover:text-espresso">
                     {n.label}
                   </Link>
                 </li>
@@ -92,21 +97,21 @@ export function SiteHeader() {
 
         <Wordmark />
 
-        <div className="flex flex-1 items-center justify-end gap-2">
-          <Link href="/#silhouette" className="label hidden px-3 py-3 text-charcoal hover:text-espresso md:inline-block">
-            Silhouette
+        <div className="flex flex-1 items-center justify-end gap-6">
+          <Link
+            href="/#silhouette"
+            className="link-draw hidden text-[10.5px] uppercase tracking-[0.26em] text-charcoal hover:text-espresso md:inline-block"
+          >
+            The silhouette
           </Link>
           <Link
             href="/cart"
-            className="label flex min-h-11 items-center gap-2 px-2 py-3 text-espresso"
+            className="flex min-h-11 items-center gap-2 text-[10.5px] uppercase tracking-[0.26em] text-espresso"
             aria-label={ready ? `Cart, ${count} ${count === 1 ? "item" : "items"}` : "Cart"}
           >
-            <span>Bag</span>
-            <span
-              aria-hidden
-              className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-espresso px-1.5 text-[11px] tracking-normal"
-            >
-              {ready ? count : "·"}
+            <span className="link-draw">Bag</span>
+            <span aria-hidden className="font-serif text-base italic tracking-normal normal-case">
+              ({ready ? count : "·"})
             </span>
           </Link>
         </div>
@@ -119,25 +124,27 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto bg-bone px-6 pb-10 pt-6 md:hidden"
+          className="fixed inset-x-0 bottom-0 top-16 z-50 flex flex-col overflow-y-auto bg-bone px-6 pb-10 pt-8 md:hidden"
         >
           <nav aria-label="Mobile">
-            <ul className="divide-y divide-stone/60 border-y border-stone/60">
+            <ul>
               {NAV.map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} className="block py-5 font-serif text-3xl text-espresso" onClick={() => setOpen(false)}>
+                  <Link href={n.href} className="flex items-baseline gap-4 py-3 font-serif text-[2.6rem] font-light leading-tight text-espresso" onClick={() => setOpen(false)}>
+                    <span aria-hidden className="font-sans text-[10px] tracking-[0.2em] text-stone-deep">0{NAV.indexOf(n) + 1}</span>
                     {n.label}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/cart" className="block py-5 font-serif text-3xl text-espresso" onClick={() => setOpen(false)}>
+                <Link href="/cart" className="flex items-baseline gap-4 py-3 font-serif text-[2.6rem] font-light leading-tight text-espresso" onClick={() => setOpen(false)}>
+                  <span aria-hidden className="font-sans text-[10px] tracking-[0.2em] text-stone-deep">0{NAV.length + 1}</span>
                   Bag {ready ? `(${count})` : ""}
                 </Link>
               </li>
             </ul>
           </nav>
-          <p className="label mt-10 text-stone-deep">Lagos · Structured menswear</p>
+          <p className="eyebrow mt-auto pt-10 text-stone-deep">Lagos · Structured menswear</p>
         </div>
       )}
     </header>

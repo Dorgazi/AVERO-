@@ -9,14 +9,14 @@ export function SilhouetteDiagram() {
         viewBox="0 0 520 440"
         role="img"
         aria-labelledby="sil-title sil-desc"
-        className="h-auto w-full text-espresso"
+        className="h-auto w-full"
       >
         <title id="sil-title">The AVÉRO silhouette</title>
         <desc id="sil-desc">
           A line drawing of a boxy T-shirt from the front, with notes pointing to the clean crew neckline,
           the dropped shoulder seam, the roomy straight body, and the short, wide sleeve.
         </desc>
-        <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round">
+        <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round">
           {/* body */}
           <path d="M175 70 Q260 100 345 70 L420 98 L460 190 L400 210 L392 178 L392 392 L128 392 L128 178 L120 210 L60 190 L100 98 Z" />
           {/* neck rib */}

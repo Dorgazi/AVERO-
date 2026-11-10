@@ -53,7 +53,7 @@ See [docs/OWNER_SETUP.md](docs/OWNER_SETUP.md). Until an account is listed in `p
 ## Demo data (optional, separate from migrations)
 
 ```bash
-npm run seed:demo         # idempotent: 9 sample listings from seed/images, ₦50,000, labelled "Sample product"
+npm run seed:demo         # idempotent: The Essential Tee (4 colours, ₦80,000) + 2 socks (₦50,000 sample price), labelled "Sample product"; prunes sample listings no longer in the list
 npm run seed:demo:reset   # removes every is_demo product and its images
 ```
 

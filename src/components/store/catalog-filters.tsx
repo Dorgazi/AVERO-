@@ -24,7 +24,8 @@ export function CatalogFilters({ facets, current, resultCount }: Props) {
     startTransition(() => router.replace(`/shop${params.size ? `?${params}` : ""}`, { scroll: false }));
   };
 
-  const select = "field label h-11 min-h-11 cursor-pointer pr-8 text-[11px]";
+  const select =
+    "h-11 min-h-11 cursor-pointer border-0 border-b border-stone bg-transparent pr-8 text-[11px] uppercase tracking-[0.18em] text-espresso focus-visible:border-espresso";
 
   return (
     <form
@@ -37,10 +38,10 @@ export function CatalogFilters({ facets, current, resultCount }: Props) {
         apply();
       }}
       aria-label="Filter products"
-      className="flex flex-wrap items-end gap-3"
+      className="flex flex-wrap items-end gap-x-8 gap-y-4"
     >
       <div className="flex flex-col gap-1">
-        <label htmlFor="f-category" className="label text-stone-deep">Category</label>
+        <label htmlFor="f-category" className="text-[10px] uppercase tracking-[0.26em] text-stone-deep">Category</label>
         <select id="f-category" name="category" defaultValue={current.category ?? ""} className={select}>
           <option value="">All</option>
           {facets.categories.map((c) => (
@@ -49,7 +50,7 @@ export function CatalogFilters({ facets, current, resultCount }: Props) {
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="f-colour" className="label text-stone-deep">Colour</label>
+        <label htmlFor="f-colour" className="text-[10px] uppercase tracking-[0.26em] text-stone-deep">Colour</label>
         <select id="f-colour" name="colour" defaultValue={current.colour ?? ""} className={select}>
           <option value="">All</option>
           {facets.colours.map((c) => (
@@ -58,7 +59,7 @@ export function CatalogFilters({ facets, current, resultCount }: Props) {
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="f-size" className="label text-stone-deep">Size</label>
+        <label htmlFor="f-size" className="text-[10px] uppercase tracking-[0.26em] text-stone-deep">Size</label>
         <select id="f-size" name="size" defaultValue={current.size ?? ""} className={select}>
           <option value="">All</option>
           {facets.sizes.map((s) => (
@@ -67,7 +68,7 @@ export function CatalogFilters({ facets, current, resultCount }: Props) {
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="f-sort" className="label text-stone-deep">Sort</label>
+        <label htmlFor="f-sort" className="text-[10px] uppercase tracking-[0.26em] text-stone-deep">Sort</label>
         <select id="f-sort" name="sort" defaultValue={current.sort ?? ""} className={select}>
           <option value="">Featured</option>
           <option value="price-asc">Price: low to high</option>

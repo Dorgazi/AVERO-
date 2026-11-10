@@ -8,6 +8,7 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   reporter: [["list"]],
+  outputDir: "test-results.nosync",
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: "retain-on-failure",
@@ -17,9 +18,9 @@ export default defineConfig({
     { name: "desktop", use: { ...devices["Desktop Chrome"] }, testMatch: /admin|guard/ },
   ],
   webServer: {
-    command: `npm run start -- -p ${PORT}`,
+    command: `NEXT_DIST_DIR=.next-test.nosync npx next build && NEXT_DIST_DIR=.next-test.nosync npx next start -p ${PORT}`,
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: true,
-    timeout: 120_000,
+    reuseExistingServer: false,
+    timeout: 300_000,
   },
 });

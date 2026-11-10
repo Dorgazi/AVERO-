@@ -45,3 +45,7 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/.next-test/
+/.next.nosync/
+/.next-test.nosync/
+/test-results.nosync/

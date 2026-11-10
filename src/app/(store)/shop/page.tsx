@@ -26,11 +26,18 @@ export default async function ShopPage({ searchParams }: PageProps<"/shop">) {
   const title = filters.category ? categoryLabel(filters.category) : "All pieces";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-14 sm:px-8 md:py-20">
-      <p className="label text-stone-deep">Shop</p>
-      <h1 className="mt-3 text-5xl sm:text-6xl">{title}</h1>
+    <div className="mx-auto max-w-7xl px-4 pb-28 pt-16 sm:px-8 md:pb-36 md:pt-24">
+      <div className="grid gap-6 md:grid-cols-12 md:items-end">
+        <div className="md:col-span-8">
+          <p className="eyebrow text-stone-deep">Collection 01</p>
+          <h1 className="display mt-5 text-6xl sm:text-7xl md:text-8xl">{title}</h1>
+        </div>
+        <p className="max-w-xs text-sm leading-relaxed text-charcoal-soft md:col-span-4 md:justify-self-end">
+          Structured, boxy-fit essentials in a quiet palette, priced in naira.
+        </p>
+      </div>
 
-      <div className="mt-10 border-y border-stone/60 py-5">
+      <div className="mt-14 border-y hairline py-5">
         <CatalogFilters
           facets={facets}
           current={{ ...filters, sort: filters.sort }}
@@ -39,16 +46,16 @@ export default async function ShopPage({ searchParams }: PageProps<"/shop">) {
       </div>
 
       {products.length ? (
-        <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-14 sm:gap-x-6 lg:grid-cols-3">
+        <ul className="mt-14 grid grid-cols-2 gap-x-4 gap-y-16 sm:gap-x-8 lg:grid-cols-3">
           {products.map((p, i) => (
             <li key={p.id}>
-              <ProductCard product={p} priority={i < 2} />
+              <ProductCard product={p} priority={i < 2} index={i} />
             </li>
           ))}
         </ul>
       ) : (
         <div className="py-24 text-center">
-          <p className="font-serif text-2xl text-espresso">Nothing matches those filters.</p>
+          <p className="display text-4xl text-espresso">Nothing matches those filters.</p>
           <Link href="/shop" className="label link-underline mt-6 inline-block py-2">
             Clear filters
           </Link>

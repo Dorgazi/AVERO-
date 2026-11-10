@@ -53,7 +53,7 @@ export async function getPublishedProducts(filters: CatalogFilters = {}) {
   if (filters.category) query = query.eq("category", filters.category);
   if (filters.sort === "price-asc") query = query.order("price_ngn", { ascending: true });
   else if (filters.sort === "price-desc") query = query.order("price_ngn", { ascending: false });
-  else query = query.order("featured", { ascending: false }).order("published_at", { ascending: false });
+  else query = query.order("featured", { ascending: false }).order("published_at", { ascending: true });
 
   const { data, error } = await query;
   if (error) throw new Error(`Could not load products: ${error.message}`);

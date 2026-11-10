@@ -12,21 +12,23 @@ export async function generateMetadata({ params }: PageProps<"/shop/[slug]">): P
   return p ? { title: p.name, description: p.description.slice(0, 160) } : { title: "Not found" };
 }
 
-export default async function ProductPage({ params }: PageProps<"/shop/[slug]">) {
+export default async function ProductPage({ params, searchParams }: PageProps<"/shop/[slug]">) {
   const { slug } = await params;
+  const sp = await searchParams;
+  const colour = typeof sp.colour === "string" && sp.colour.length <= 40 ? sp.colour : undefined;
   const product = await getPublishedProductBySlug(slug);
   if (!product) notFound();
 
   return (
     <>
       <nav aria-label="Breadcrumb" className="mx-auto max-w-7xl px-4 pt-8 sm:px-8">
-        <ol className="label flex gap-2 text-stone-deep">
+        <ol className="flex gap-3 text-[10px] uppercase tracking-[0.26em] text-stone-deep">
           <li><Link href="/shop" className="hover:text-espresso">Shop</Link></li>
           <li aria-hidden>/</li>
           <li aria-current="page" className="text-charcoal">{product.name}</li>
         </ol>
       </nav>
-      <ProductView product={product} />
+      <ProductView product={product} initialColour={colour} />
     </>
   );
 }

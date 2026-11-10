@@ -94,14 +94,14 @@ test.describe("owner dashboard", () => {
     for (let i = 0; i < 2; i++) {
       await rows.nth(i).getByLabel(/Alt text/).fill(`[TEST] Black boxy tee view ${i + 1}`);
       await rows.nth(i).getByRole("button", { name: "Save details" }).click();
-      await expect(page.getByText("Image details saved.")).toBeVisible();
+      await expect(page.getByText("Image details saved.", { exact: true })).toBeVisible();
     }
 
     // Reorder + cover
     await rows.nth(1).getByRole("button", { name: /Move image 2 earlier/ }).click();
-    await expect(page.getByText("Gallery order saved.")).toBeVisible();
-    await rows.nth(1).getByRole("button", { name: "Set as cover" }).click();
-    await expect(page.getByText("Cover image updated.")).toBeVisible();
+    await expect(page.getByText("Gallery order saved.", { exact: true })).toBeVisible();
+    await rows.nth(0).getByRole("button", { name: "Set as cover" }).click();
+    await expect(page.getByText("Cover image updated.", { exact: true })).toBeVisible();
 
     // Preview
     await page.getByRole("link", { name: "Preview" }).click();
@@ -110,7 +110,7 @@ test.describe("owner dashboard", () => {
 
     // Publish
     await page.getByRole("button", { name: "Publish" }).click();
-    await expect(page.getByText("Published.")).toBeVisible();
+    await expect(page.getByText("Published.", { exact: true })).toBeVisible();
     await anonPage.goto(`/shop/${SLUG}`);
     await expect(anonPage.getByRole("heading", { name: NAME })).toBeVisible();
     await expect(anonPage.locator("main img").first()).toHaveAttribute("alt", /\[TEST\] Black boxy tee/);
@@ -121,7 +121,7 @@ test.describe("owner dashboard", () => {
     await page.reload();
     await page2.getByLabel("Price (₦, whole naira)").fill("61000");
     await page2.getByRole("button", { name: "Save changes" }).click();
-    await expect(page2.getByText("Saved.")).toBeVisible();
+    await expect(page2.getByText("Saved.", { exact: true })).toBeVisible();
     await page.getByLabel("Stock for Black, size M").fill("0");
     await page.getByRole("button", { name: "Save changes" }).click();
     await expect(page.getByRole("alert").filter({ hasText: "newer version" })).toBeVisible();
@@ -133,19 +133,19 @@ test.describe("owner dashboard", () => {
     await page.reload();
     await page.getByLabel("Stock for Black, size M").fill("0");
     await page.getByRole("button", { name: "Save changes" }).click();
-    await expect(page.getByText("Saved.")).toBeVisible();
+    await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
     await anonPage.reload();
     await expect(anonPage.getByRole("button", { name: "Sold out" })).toBeDisabled();
 
     // Remove an image
     page.once("dialog", (d) => d.accept());
     await page.getByRole("list", { name: "Gallery order" }).getByRole("listitem").first().getByRole("button", { name: "Remove" }).click();
-    await expect(page.getByText("Image removed.")).toBeVisible();
+    await expect(page.getByText("Image removed.", { exact: true })).toBeVisible();
     await expect(page.getByRole("list", { name: "Gallery order" }).getByRole("listitem")).toHaveCount(1);
 
     // Archive hides it from the storefront again
     await page.getByRole("button", { name: "Archive" }).click();
-    await expect(page.getByText("Archived.")).toBeVisible();
+    await expect(page.getByText("Archived.", { exact: true })).toBeVisible();
     expect((await anonPage.goto(`/shop/${SLUG}`))?.status()).toBe(404);
     await anonCtx.close();
   });

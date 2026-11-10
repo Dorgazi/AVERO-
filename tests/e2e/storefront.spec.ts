@@ -36,30 +36,49 @@ test.describe("mobile storefront", () => {
     await expect(page).toHaveURL(/category=socks/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Socks");
     await expect(page.locator("main article")).toHaveCount(2);
-    await page.goto("/shop?availability=in-stock");
-    await expect(page.getByRole("link", { name: /Retro Cassette/ })).toHaveCount(0);
+    await page.goto("/shop?category=t-shirts");
+    await expect(page.locator("main article")).toHaveCount(2);
+    await page.goto("/shop?colour=White&size=XXL&availability=in-stock");
+    await expect(page.getByText("Nothing matches those filters.")).toBeVisible();
     await page.goto("/shop");
-    await expect(page.getByRole("link", { name: /Retro Cassette/ })).toHaveCount(1);
+    await expect(page.locator("main article")).toHaveCount(4);
   });
 
-  test("sold-out states: size disabled and whole product sold out", async ({ page }) => {
+  test("tapping the main photo flips between front and back; no native radio circles", async ({ page }) => {
     await page.goto("/shop/essential-tee");
-    await page.getByText("White", { exact: true }).click();
+    const gallery = page.getByRole("region", { name: "Product images" });
+    await expect(gallery.getByRole("img", { name: /front view/ })).toBeVisible();
+    await gallery.getByRole("button", { name: "Show back view" }).click();
+    await expect(gallery.getByRole("img", { name: /back view/ })).toBeVisible();
+    await gallery.getByRole("button", { name: "Show front view" }).click();
+    await expect(gallery.getByRole("img", { name: /front view/ })).toBeVisible();
+    // Radios stay usable but are never painted.
+    const opacities = await page.locator("input[type=radio]").evaluateAll((els) =>
+      els.map((e) => getComputedStyle(e).opacity),
+    );
+    expect(opacities.length).toBeGreaterThan(0);
+    expect(opacities.every((o) => o === "0")).toBe(true);
+  });
+
+  test("sold-out size is disabled; other sizes stay selectable", async ({ page }) => {
+    await page.goto("/shop/essential-tee");
+    await page.getByRole("radio", { name: "White", exact: true }).check();
     await expect(page.getByRole("radio", { name: "XXL" })).toBeDisabled();
-    await page.goto("/shop/retro-cassette-tee");
-    await expect(page.getByRole("button", { name: "Sold out" })).toBeDisabled();
+    await expect(page.getByRole("radio", { name: "XL", exact: true })).toBeEnabled();
+    await page.getByRole("radio", { name: "Black", exact: true }).check();
+    await expect(page.getByRole("radio", { name: "XXL" })).toBeEnabled();
   });
 
   test("size selection, add to bag, persistence, quantity and removal", async ({ page }) => {
     await page.goto("/shop/essential-tee");
-    await expect(page.getByText("₦50,000").first()).toBeVisible();
+    await expect(page.getByText("₦80,000").first()).toBeVisible();
 
     // Adding without a size is refused.
     await page.getByRole("button", { name: "Add to bag" }).click();
     await expect(page.getByRole("status")).toContainText("Please choose a size");
 
     // Keyboard: choose colour + size via radio groups.
-    await page.getByText("Black", { exact: true }).click();
+    await page.getByRole("radio", { name: "Black", exact: true }).check();
     await page.getByRole("radio", { name: "L", exact: true }).check();
     await page.getByRole("button", { name: "Add to bag" }).click();
     await expect(page.getByRole("status")).toContainText("added to your bag");
@@ -74,7 +93,7 @@ test.describe("mobile storefront", () => {
     await expect(page.getByText("Prices and stock checked just now.")).toBeVisible();
     await page.getByRole("button", { name: /Increase quantity/ }).click();
     await expect(page.getByLabel("Quantity 2")).toBeVisible();
-    await expect(page.getByText("₦100,000").first()).toBeVisible();
+    await expect(page.getByText("₦160,000").first()).toBeVisible();
     await page.getByRole("button", { name: /Decrease quantity/ }).click();
     await expect(page.getByLabel("Quantity 1")).toBeVisible();
 
@@ -103,8 +122,8 @@ test.describe("mobile storefront", () => {
       localStorage.setItem(k, JSON.stringify(lines));
     });
     await page.goto("/cart");
-    await expect(page.getByText(/Price updated to ₦50,000/)).toBeVisible();
-    await expect(page.getByText("₦50,000").first()).toBeVisible();
+    await expect(page.getByText(/Price updated to ₦80,000/)).toBeVisible();
+    await expect(page.getByText("₦80,000").first()).toBeVisible();
     await page.evaluate(() => localStorage.clear());
   });
 });

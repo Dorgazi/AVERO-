@@ -34,7 +34,7 @@ export function CartView() {
           return (
             <li key={l.variantId} className="flex gap-4 py-6 sm:gap-6">
               <Link href={`/shop/${l.slug}`} className="block w-24 shrink-0 sm:w-28">
-                <div className="aspect-[4/5] overflow-hidden bg-bone-deep">
+                <div className="aspect-square overflow-hidden bg-bone-deep">
                   {(v?.image ?? l.image) && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={v?.image ?? l.image ?? ""} alt={l.imageAlt || l.name} className="h-full w-full object-cover" />

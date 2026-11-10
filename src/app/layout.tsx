@@ -6,7 +6,7 @@ import { CartProvider } from "@/components/cart/cart-context";
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500"],
   style: ["normal", "italic"],
 });
 
