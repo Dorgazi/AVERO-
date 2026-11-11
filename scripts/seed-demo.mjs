@@ -108,25 +108,27 @@ const DEMO = [
   },
   {
     slug: "monogram-ankle-socks",
-    name: "Monogram Ankle Socks",
+    name: "Monogram Ankle Socks — 4 Pairs",
     category: "socks",
+    price: 15000, // owner-confirmed price
     featured: true,
-    description: "Ribbed-cuff ankle socks with a dark green AV monogram.",
+    description: "A set of four pairs of ribbed-cuff ankle socks, each with a dark green AV monogram.",
     colours: ["White"],
     sizes: ["ONE SIZE"],
     stock: () => 12,
-    images: [["ankle-sock.jpg", null, "Pair of white ankle socks with a dark green AV monogram on each ribbed cuff"]],
+    images: [["ankle-sock.jpg", null, "Four pairs of white ankle socks in a two-by-two grid, each with a dark green AV monogram on the ribbed cuff"]],
   },
   {
     slug: "monogram-crew-socks",
-    name: "Monogram Crew Socks",
+    name: "Monogram Crew Socks — 4 Pairs",
     category: "socks",
+    price: 20000, // owner-confirmed price
     featured: true,
-    description: "Ribbed crew-length socks with a dark green AV monogram.",
+    description: "A set of four pairs of ribbed crew-length socks, each with a dark green AV monogram.",
     colours: ["White"],
     sizes: ["ONE SIZE"],
     stock: () => 12,
-    images: [["crew-sock.jpg", null, "White crew-length sock with a dark green AV monogram near the top of the ribbed leg"]],
+    images: [["crew-sock.jpg", null, "Eight white crew-length socks in two rows, each with a dark green AV monogram near the top of the ribbed leg"]],
   },
 ];
 
@@ -173,7 +175,7 @@ if (process.argv.includes("--reset")) {
 }
 
 for (const d of DEMO) {
-  let { data: existing } = await supabase.from("products").select("id, is_demo, status, version, featured, price_ngn").eq("slug", d.slug).maybeSingle();
+  let { data: existing } = await supabase.from("products").select("id, is_demo, status, version, featured, price_ngn, name, description").eq("slug", d.slug).maybeSingle();
   if (existing && !existing.is_demo) {
     console.log(`skip ${d.slug}: a real (non-sample) product already uses this slug`);
     continue;
@@ -185,7 +187,7 @@ for (const d of DEMO) {
       p_variants: variants,
     });
     if (error) throw error;
-    existing = { id: data[0].id, is_demo: true, status: "draft", version: 1, featured: d.featured, price_ngn: d.price ?? DEMO_PRICE };
+    existing = { id: data[0].id, is_demo: true, status: "draft", version: 1, featured: d.featured, price_ngn: d.price ?? DEMO_PRICE, name: d.name, description: d.description };
     console.log(`created ${d.slug}`);
   }
 
@@ -217,10 +219,10 @@ for (const d of DEMO) {
   }
 
   const price = d.price ?? DEMO_PRICE;
-  if (existing.status !== "published" || existing.featured !== d.featured || existing.price_ngn !== price) {
+  if (existing.status !== "published" || existing.featured !== d.featured || existing.price_ngn !== price || existing.name !== d.name || existing.description !== d.description) {
     const { data: cur } = await supabase.from("products").select("version").eq("id", existing.id).single();
     const { error } = await supabase.rpc("admin_save_product", {
-      p_id: existing.id, p_expected_version: cur.version, p_product: { status: "published", featured: d.featured, price_ngn: price }, p_variants: null,
+      p_id: existing.id, p_expected_version: cur.version, p_product: { status: "published", featured: d.featured, price_ngn: price, name: d.name, description: d.description }, p_variants: null,
     });
     if (error) throw error;
   }

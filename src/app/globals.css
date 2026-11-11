@@ -40,6 +40,11 @@
     letter-spacing: -0.01em;
     line-height: 1.04;
   }
+  /* Cormorant defaults to old-style figures ("4" dips below the line); use
+     lining numerals so names like "4 Pairs" and prices read evenly. */
+  h1, h2, h3, h4, .font-serif, .display {
+    font-variant-numeric: lining-nums;
+  }
   ::selection {
     background: var(--color-espresso);
     color: var(--color-bone);
@@ -223,4 +228,5 @@
     to { transform: scale(1); }
   }
 }
+
 
